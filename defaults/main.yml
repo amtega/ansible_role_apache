@@ -1,5 +1,11 @@
 ---
 # Role default lower priority variables
+
+#Array witch identifed aditional httpd modules wants install.
+# Only ssl module is configure by this role. Other modules are intalled with defaults
+apache_aditional_modules:
+  - mod_ssl
+
 # Apache httpd configuration directives
 
 apache_DocumentRoot: "/var/www/html"
@@ -30,7 +36,6 @@ apache_Vhost_configdir: vhost.d
 
 # Apache httpd ssl_module configuration directives
 # See https://httpd.apache.org/docs/current/mod/mod_ssl.html for further information
-apache_ssl_enabled: true
 apache_ssl_Engine: "on"
 apache_ssl_port: 443
 apache_ssl_PassPhraseDialog: "exec:/usr/libexec/httpd-ssl-pass-dialog"

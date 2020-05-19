@@ -2,11 +2,12 @@
 # Role tasks
 - block:
 
-    - name: Install ssl module if required
+    - name: Install aditional modules
       yum:
-        name: mod_ssl
+        name: "{{ item }}"
         state: present
-      when: apache_ssl_enabled
+      loop: "{{ apache_aditional_modules }}"
+      notify: apache restart
 
     - name: Configure apache httpd
       template:
@@ -30,7 +31,7 @@
       template:
         src: ssl.conf.j2
         dest: "{{ apache_ssl_config_file }}"
-      when: apache_ssl_enabled
+      when: "'mod_ssl' in apache_aditional_modules"
       notify: apache restart
 
     - name: Deploy welcome page

@@ -1,6 +1,6 @@
 # Ansible apache role
 
-This is an [Ansible](http://www.ansible.com) role which intall a basic httpd server with ssl support.
+This is an [Ansible](http://www.ansible.com) role which intall a basic httpd server.
 
 ## Requirements
 
@@ -10,9 +10,14 @@ This is an [Ansible](http://www.ansible.com) role which intall a basic httpd ser
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
-This role performs a basic configuration. For custom settings you can add .conf files in the conf.d directory inside the apache configuration directory.
+A list of modules can be passed in apache_aditional_modules list. Only ssl module
+is configured. Other modules are installed with defaults.
 
-This role provide a vhost.d directory inside the apache configuration directory to store your vhost configurations,
+This role performs a basic configuration. For custom settings you can add .conf
+files in the conf.d directory inside the apache configuration directory.
+
+This role provide a vhost.d directory inside the apache configuration directory
+to store your vhost configurations,
 
 SSL global and vhost custom directives variables are supplied, witch are filled with raw text format.
 
