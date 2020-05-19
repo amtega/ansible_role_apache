@@ -19,6 +19,16 @@
   tags:
     - sandbox
 
+- name: Prepare some variables required by the tests
+  hosts: docker_sandbox_containers
+  tasks:
+    - name: Setup some variables required by tests
+      set_fact:
+        apache_modules_testhostvars:
+          - mod_ldap
+  tags:
+    - idempotence
+
 - name: Test apache role
   hosts: docker_sandbox_containers
   roles:
@@ -40,6 +50,7 @@
       failed_when: >-
          not check_httpd_result.content
              is search("Apache Web Server was installed by ansible")
+
     - name: Check that ssl port returns welcome page
       uri:
         url: "https://localhost:{{ apache_ssl_port }}"
@@ -49,6 +60,17 @@
       failed_when: >-
          not check_ssl_result.content
              is search("Apache Web Server was installed by ansible")
+
+    - name: Register apache apache apache modueles
+      command: "/usr/sbin/httpd -M"
+      changed_when: false
+      register: apache_read_modules_installed
+
+    - name: Ensure apache modules are load
+      assert:
+        that:
+          - apache_read_modules_installed.stdout is search("ssl_module")
+          - apache_read_modules_installed.stdout is search("ldap_module")
   tags:
     - idempotence
 
