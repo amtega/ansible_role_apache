@@ -1,0 +1,83 @@
+{{ ansible_managed | comment }}
+
+ServerRoot {{ apache_ServerRoot }}
+
+
+Listen {{ apache_Listen }}
+
+Include {{ apache_modules_config }}/*.conf
+
+
+User {{ apache_user }}
+Group {{ apache_group }}
+
+
+ServerAdmin {{ apache_ServerAdmin }}
+
+ServerName {{ apache_ServerName }}:{{ apache_Listen }}
+
+
+<Directory />
+    AllowOverride none
+    Require all denied
+</Directory>
+
+
+DocumentRoot {{ apache_DocumentRoot }}
+
+
+<Directory {{ apache_DocumentRoot }}>
+    Options {{ apache_DocumentRoot_options }}
+    AllowOverride {{ apache_DocumentRoot_AllowOverride }}
+    Require all granted
+</Directory>
+
+<IfModule dir_module>
+    DirectoryIndex {{ apache_DirectoryIndex }}
+</IfModule>
+
+<Files ".ht*">
+    Require all denied
+</Files>
+
+
+ErrorLog {{ apache_ErrorLog }}
+LogLevel {{ apache_LogLevel }}
+
+<IfModule log_config_module>
+
+    LogFormat "{{ apache_LogFormat_combined }}" combined
+    LogFormat "{{ apache_LogFormat_common }}" common
+
+    <IfModule logio_module>
+      LogFormat "{{ apache_LogFormat_combinedio }}" combinedio
+    </IfModule>
+
+    CustomLog "{{ apache_CustomLog_path }}" {{ apache_CustomLog_type }}
+</IfModule>
+
+<IfModule mime_module>
+    TypesConfig /etc/mime.types
+    AddType application/x-compress .Z
+    AddType application/x-gzip .gz .tgz
+    AddType text/html .shtml
+    AddOutputFilter INCLUDES .shtml
+</IfModule>
+
+
+AddDefaultCharset {{ apache_DefaultCharset }}
+
+<IfModule mime_magic_module>
+    MIMEMagicFile conf/magic
+</IfModule>
+
+EnableMMAP {{ apache_EnableMMAP }}
+EnableSendfile {{ apache_EnableSendfile }}
+
+# Supplemental configuration
+
+IncludeOptional conf.d/*.conf
+
+# VirtualHost configuration
+
+IncludeOptional {{ apache_Vhost_configdir }}/*.conf

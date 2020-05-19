@@ -1,2 +1,50 @@
 ---
 # Role tasks
+- block:
+
+    - name: Install ssl module if required
+      yum:
+        name: mod_ssl
+        state: present
+      when: apache_ssl_enabled
+
+    - name: Configure apache httpd
+      template:
+        src: httpd.conf.j2
+        dest: "{{ apache_httpd_config_file }}"
+      notify: apache restart
+
+    - name: Create vhost configuration directory
+      file:
+        path: "{{ apache_ServerRoot }}/{{ apache_Vhost_configdir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Ensure apache DocumentRoot directory exists
+      file:
+        path: "{{ apache_DocumentRoot }}"
+        state: directory
+        mode: '0755'
+
+    - name: Configure apache ssl
+      template:
+        src: ssl.conf.j2
+        dest: "{{ apache_ssl_config_file }}"
+      when: apache_ssl_enabled
+      notify: apache restart
+
+    - name: Deploy welcome page
+      template:
+        src: index.html.j2
+        dest: "{{ apache_DocumentRoot }}/index.html"
+
+    - name: enable httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - meta: flush_handlers
+
+  tags:
+    - role::apache
