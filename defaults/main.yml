@@ -3,6 +3,7 @@
 
 #Array witch identifed aditional httpd modules wants install.
 # Only ssl module is configure by this role. Other modules are intalled with defaults
+apache_modules_load_from_hostvars: yes
 apache_aditional_modules:
   - mod_ssl
 

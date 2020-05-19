@@ -32,3 +32,11 @@ dependencies:
         all:
           all:
             httpd: present
+
+  - role: amtega.select_hostvars
+    vars:
+      select_hostvars_query:
+        pattern: "^apache_modules_.*"
+        fact_name: apache_modules_hostvars
+        output_type: list
+    when: apache_modules_load_from_hostvars | bool

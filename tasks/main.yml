@@ -6,7 +6,7 @@
       yum:
         name: "{{ item }}"
         state: present
-      loop: "{{ apache_aditional_modules }}"
+      loop: "{{ apache_modules_managed }}"
       notify: apache restart
 
     - name: Configure apache httpd
@@ -31,7 +31,7 @@
       template:
         src: ssl.conf.j2
         dest: "{{ apache_ssl_config_file }}"
-      when: "'mod_ssl' in apache_aditional_modules"
+      when: "'mod_ssl' in apache_modules_managed"
       notify: apache restart
 
     - name: Deploy welcome page
@@ -46,6 +46,13 @@
         enabled: true
 
     - meta: flush_handlers
-
+  vars:
+    apache_modules_managed: >-
+      {{ (apache_aditional_modules
+         + ((apache_modules_load_from_hostvars)
+            | ternary(apache_modules_hostvars
+                      | default([])
+                      | flatten,
+                      []))) | unique }}
   tags:
     - role::apache
