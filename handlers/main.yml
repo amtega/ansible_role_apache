@@ -1,2 +1,8 @@
 ---
 # Role handlers
+- name: Apache restart httpd
+  service:
+    name: httpd
+    state: restarted
+    enabled: yes
+  listen: apache restart

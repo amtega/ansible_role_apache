@@ -1,2 +1,87 @@
 ---
 # Role default lower priority variables
+
+#Array witch identifed aditional httpd modules wants install.
+# Only ssl module is configure by this role. Other modules are intalled with defaults
+
+apache_aditional_modules:
+  - mod_ssl
+
+# Indicate if the modules variable must be loaded also from host
+# variables. Any host variable that begins with "apache_modules_*" and contains
+# the necessary attributes will be loaded as an item to manage by the role. The
+# variables must follow the structure detailed before for each one.
+
+apache_modules_load_from_hostvars: yes
+
+# Apache httpd configuration directives
+
+apache_DocumentRoot: "/var/www/html"
+apache_ServerName: "{{ ansible_hostname }}"
+apache_ServerRoot: "/etc/httpd"
+apache_httpd_port: 80
+apache_Listen: "{{ apache_httpd_port }}"
+apache_modules_config: conf.modules.d
+apache_user: apache
+apache_group: apache
+apache_ServerAdmin: root@localhost
+apache_DocumentRoot_options: "Indexes FollowSymLinks"
+apache_DocumentRoot_AllowOverride: None
+apache_DocumentRoot_Require: "all granted"
+apache_DirectoryIndex: "index.html"
+apache_ErrorLog: "logs/error_log"
+apache_LogLevel: warn
+apache_LogFormat_combined: "%h %l %u %t \\\"%r\\\" %>s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\""
+apache_LogFormat_common: "%h %l %u %t \\\"%r\\\" %>s %b"
+apache_LogFormat_combinedio: "%h %l %u %t \\\"%r\\\" %>s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\" %I %O"
+apache_CustomLog_path: logs/access_log
+apache_CustomLog_type: combined
+apache_DefaultCharset: UTF-8
+apache_EnableMMAP: "on"
+apache_EnableSendfile: "on"
+apache_Vhost_configdir: vhost.d
+
+
+# Apache httpd ssl_module configuration directives
+# See https://httpd.apache.org/docs/current/mod/mod_ssl.html for further information
+apache_ssl_Engine: "on"
+apache_ssl_port: 443
+apache_ssl_PassPhraseDialog: "exec:/usr/libexec/httpd-ssl-pass-dialog"
+apache_ssl_SessionCache: "shmcb:/run/httpd/sslcache(512000)"
+apache_ssl_SessionCacheTimeout: 300
+apache_ssl_RandomSeed_startup: "file:/dev/urandom  256"
+apache_ssl_RandomSeed_connect: builtin
+apache_ssl_CryptoDevice: builtin
+apache_ssl_DocumentRoot: "{{ apache_DocumentRoot }}"
+apache_ssl_ServerName: "{{ apache_ServerName }}"
+apache_ssl_ErrorLog: logs/ssl_error_log
+apache_ssl_TransferLog: logs/ssl_access_log
+apache_ssl_LogLevel: warn
+#
+# Force tlsv1.2 since Fedora openssl version is 1.1.1.
+# Adjust  Protocol and CipherSuite carefully
+#
+apache_ssl_Protocol: "-all +TLSv1.2"
+apache_ssl_CipherSuite: 'ALL:!aNULL:RC4+RSA:+HIGH:+MEDIUM:+LOW:+EXP:+eNULL'
+apache_ssl_HonorCipherOrder: "on"
+apache_ssl_Compression: "off"
+apache_ssl_CertificateFile: "/etc/pki/tls/certs/localhost.crt"
+apache_ssl_CertificateKeyFile: "/etc/pki/tls/private/localhost.key"
+apache_ssl_UseStapling: "on"
+apache_ssl_StaplingResponderTimeout: 5
+apache_ssl_StaplingReturnResponderErrors: 'off'
+apache_ssl_StaplingCache: 'shmcb:/var/run/ocsp(128000)'
+#
+#Optional ssl directives. Omit by default
+#
+#apache_ssl_ProxyCipherSuite:
+#apache_ssl_CertificateChainFile:
+#apache_ssl_CACertificateFile:
+#
+#Raw varible for custom global directives
+#
+#apache_ssl_CustomGlobalDirectivesRaw:
+#
+#Raw variables for custom VirtualHost directives
+#
+# apache_ssl_CustomVhostDirectivesRaw:

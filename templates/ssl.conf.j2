@@ -1,0 +1,85 @@
+{{ ansible_managed | comment }}
+
+Listen {{ apache_ssl_port }} https
+
+##
+##  SSL Global Context
+##
+##  All SSL configuration in this context applies both to
+##  the main server and all SSL-enabled virtual hosts.
+##
+
+SSLPassPhraseDialog     {{ apache_ssl_PassPhraseDialog }}
+SSLSessionCache         {{ apache_ssl_SessionCache }}
+SSLSessionCacheTimeout  {{ apache_ssl_SessionCache }}
+
+SSLRandomSeed startup {{ apache_ssl_RandomSeed_startup }}
+SSLRandomSeed connect {{ apache_ssl_RandomSeed_connect }}
+
+SSLCryptoDevice {{ apache_ssl_CryptoDevice }}
+
+##
+## SSL Virtual Host Context
+##
+
+<VirtualHost _default_:{{ apache_ssl_port }}>
+
+
+DocumentRoot {{ apache_ssl_DocumentRoot }}
+ServerName {{ apache_ssl_ServerName }}:{{ apache_ssl_port }}
+
+ErrorLog {{ apache_ssl_ErrorLog }}
+TransferLog {{ apache_ssl_TransferLog }}
+LogLevel {{ apache_ssl_LogLevel }}
+
+SSLEngine {{ apache_ssl_Engine }}
+
+SSLProtocol {{ apache_ssl_Protocol }}
+SSLCipherSuite {{ apache_ssl_CipherSuite}}
+{% if apache_ssl_ProxyCipherSuite is defined %}
+SSLProxyCipherSuite {{ apache_ssl_ProxyCipherSuite }}
+{% endif %}
+SSLHonorCipherOrder {{ apache_ssl_HonorCipherOrder }}
+SSLCompression {{ apache_ssl_Compression }}
+
+SSLCertificateFile {{ apache_ssl_CertificateFile }}
+SSLCertificateKeyFile {{ apache_ssl_CertificateKeyFile }}
+
+{% if apache_ssl_CertificateChainFile is defined %}
+SSLCertificateChainFile {{ apache_ssl_CertificateChainFile }}
+{% endif %}
+{% if apache_ssl_CACertificateFile is defined %}
+SSLCACertificateFile {{ apache_ssl_CACertificateFile }}
+{% endif %}
+
+{% if apache_ssl_CustomVhostDirectivesRaw is defined %}
+{{ apache_ssl_CustomVhostDirectivesRaw }}
+{% endif %}
+
+<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    SSLOptions +StdEnvVars
+</FilesMatch>
+<Directory "/var/www/cgi-bin">
+    SSLOptions +StdEnvVars
+</Directory>
+
+BrowserMatch "MSIE [2-5]" \
+         nokeepalive ssl-unclean-shutdown \
+         downgrade-1.0 force-response-1.0
+
+CustomLog logs/ssl_request_log \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+
+</VirtualHost>
+
+{% if apache_ssl_UseStapling is defined %}
+# OCSP Stapling, only in httpd 2.3.3 and later
+SSLUseStapling          {{ apache_ssl_UseStapling }}
+SSLStaplingResponderTimeout {{ apache_ssl_StaplingResponderTimeout }}
+SSLStaplingReturnResponderErrors {{ apache_ssl_StaplingReturnResponderErrors }}
+SSLStaplingCache       {{ apache_ssl_StaplingCache}}
+{% endif %}
+
+{% if apache_ssl_CustomGlobalDirectivesRaw is defined %}
+{{ apache_ssl_CustomGlobalDirectivesRaw }}
+{% endif %}
