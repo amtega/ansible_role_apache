@@ -44,8 +44,7 @@
         name: httpd
         state: started
         enabled: true
-
-    - meta: flush_handlers
+        
   vars:
     apache_modules_managed: >-
       {{ (apache_aditional_modules

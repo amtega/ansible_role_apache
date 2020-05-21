@@ -34,6 +34,7 @@
   roles:
       - role: amtega.apache
   tasks:
+    - meta: flush_handlers
     - name: Check that apache is listening
       wait_for:
         port: "{{ item }}"

@@ -24,12 +24,6 @@ SSL global and vhost custom directives variables are supplied, witch are filled 
 SSLProtocol force TLSv1.2 negotiation for Fedora 29+ compatibility as it uses version 1.1.1 of openssl.
 Adjust the SSLProtocol and SSLCipherSuite according to your needs and your certificates and keys.
 
-## Dependencies
-
-
-- [amtega.check_platform](https://galaxy.ansible.com/amtega/check_platform)
-- [amtega.packages](https://galaxy.ansible.com/amtega/packages)
-
 ## Usage
 
 
