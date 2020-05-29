@@ -1,59 +1,50 @@
 {{ ansible_managed | comment }}
 
-ServerRoot {{ apache_ServerRoot }}
+ServerRoot {{ apache_server_root }}
 
-
-Listen {{ apache_Listen }}
+Listen {{ apache_listen }}
 
 Include {{ apache_modules_config }}/*.conf
-
 
 User {{ apache_user }}
 Group {{ apache_group }}
 
-
-ServerAdmin {{ apache_ServerAdmin }}
-
-ServerName {{ apache_ServerName }}:{{ apache_Listen }}
-
+ServerAdmin {{ apache_server_admin }}
+ServerName {{ apache_server_name }}:{{ apache_listen }}
 
 <Directory />
     AllowOverride none
     Require all denied
 </Directory>
 
+DocumentRoot {{ apache_document_root }}
 
-DocumentRoot {{ apache_DocumentRoot }}
-
-
-<Directory {{ apache_DocumentRoot }}>
-    Options {{ apache_DocumentRoot_options }}
-    AllowOverride {{ apache_DocumentRoot_AllowOverride }}
+<Directory {{ apache_document_root }}>
+    Options {{ apache_document_root_options }}
+    AllowOverride {{ apache_document_root_allow_override }}
     Require all granted
 </Directory>
 
 <IfModule dir_module>
-    DirectoryIndex {{ apache_DirectoryIndex }}
+    DirectoryIndex {{ apache_directory_index }}
 </IfModule>
 
 <Files ".ht*">
     Require all denied
 </Files>
 
-
-ErrorLog {{ apache_ErrorLog }}
-LogLevel {{ apache_LogLevel }}
+ErrorLog {{ apache_error_log }}
+LogLevel {{ apache_log_level }}
 
 <IfModule log_config_module>
-
-    LogFormat "{{ apache_LogFormat_combined }}" combined
+    LogFormat "{{ apache_log_format_combined }}" combined
     LogFormat "{{ apache_LogFormat_common }}" common
 
     <IfModule logio_module>
-      LogFormat "{{ apache_LogFormat_combinedio }}" combinedio
+      LogFormat "{{ apache_log_format_combinedio }}" combinedio
     </IfModule>
 
-    CustomLog "{{ apache_CustomLog_path }}" {{ apache_CustomLog_type }}
+    CustomLog "{{ apache_custom_log_path }}" {{ apache_custom_log_type }}
 </IfModule>
 
 <IfModule mime_module>
@@ -64,15 +55,14 @@ LogLevel {{ apache_LogLevel }}
     AddOutputFilter INCLUDES .shtml
 </IfModule>
 
-
-AddDefaultCharset {{ apache_DefaultCharset }}
+AddDefaultCharset {{ apache_default_charset }}
 
 <IfModule mime_magic_module>
     MIMEMagicFile conf/magic
 </IfModule>
 
-EnableMMAP {{ apache_EnableMMAP }}
-EnableSendfile {{ apache_EnableSendfile }}
+EnableMMAP {{ apache_enable_mmap }}
+EnableSendfile {{ apache_enable_send_file }}
 
 # Supplemental configuration
 
@@ -80,4 +70,4 @@ IncludeOptional conf.d/*.conf
 
 # VirtualHost configuration
 
-IncludeOptional {{ apache_Vhost_configdir }}/*.conf
+IncludeOptional {{ apache_vhosts_config_dir }}/*.conf
