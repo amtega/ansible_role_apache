@@ -1,31 +1,24 @@
 # Ansible apache role
 
-This is an [Ansible](http://www.ansible.com) role which intall a basic httpd server.
+This is an [Ansible](http://www.ansible.com) role to intall a basic httpd server.
 
-## Requirements
+The role performs a basic configuration. For custom settings you can add .conf
+files in apache conf.d directory.
 
-[Ansible 2.9+](http://docs.ansible.com/ansible/latest/intro_installation.html)
+The role provide a vhost.d directory inside the apache configuration directory
+to store your vhost configurations.
 
 ## Role Variables
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
-A list of modules can be passed in apache_aditional_modules list. Only ssl module
-is configured. Other modules are installed with defaults.
-
-This role performs a basic configuration. For custom settings you can add .conf
-files in the conf.d directory inside the apache configuration directory.
-
-This role provide a vhost.d directory inside the apache configuration directory
-to store your vhost configurations,
-
 SSL global and vhost custom directives variables are supplied, witch are filled with raw text format.
 
 SSLProtocol force TLSv1.2 negotiation for Fedora 29+ compatibility as it uses version 1.1.1 of openssl.
+
 Adjust the SSLProtocol and SSLCipherSuite according to your needs and your certificates and keys.
 
 ## Usage
-
 
 This is an example playbook:
 
@@ -40,13 +33,12 @@ This is an example playbook:
 
 ## Testing
 
-Tests are based on docker containers. You can setup docker engine quickly using the playbook `files/setup.yml` available in the role [amtega.docker_engine](https://galaxy.ansible.com/amtega/docker_engine).
-
-Once you have docker, you can run the tests with the following commands:
+Tests are based on [molecule with role docker containers](https://molecule.readthedocs.io/en/latest/installation.html).
 
 ```shell
-$ cd amtega.apache/tests
-$ ansible-playbook main.yml
+cd amtega.apache
+
+molecule test
 ```
 
 ## License
@@ -62,3 +54,4 @@ This role is distributed in the hope that it will be useful, but WITHOUT ANY WAR
 ## Author Information
 
 - José Enrique Mourón Regueira
+- Juan Antonio Valiño García

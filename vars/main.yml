@@ -1,4 +1,5 @@
 ---
 # Role variables
-apache_httpd_config_file: "{{ apache_ServerRoot }}/conf/httpd.conf"
-apache_ssl_config_file: "{{ apache_ServerRoot }}/conf.d/ssl.conf"
+
+apache_httpd_config_file_path: "{{ apache_server_root }}/conf/httpd.conf"
+apache_ssl_config_file_path: "{{ apache_server_root }}/conf.d/ssl.conf"

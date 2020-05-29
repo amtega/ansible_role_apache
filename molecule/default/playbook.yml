@@ -1,40 +1,13 @@
 ---
-# Tasks for testing role
-- name: Configure sandbox environment
-  hosts: localhost
-  roles:
-    - role: amtega.docker_presets
-      docker_presets_images_json_query: >-
-        [? starts_with(name, `centos-7`)
-           || starts_with(name, `fedora-29`)
-           || starts_with(name, `fedora-30`) ]
-  tags:
-    - sandbox
 
-- name: Setup testing sandbox
-  hosts: localhost
-  roles:
-    - role: amtega.docker_sandbox
-      docker_sandbox_state: started
-  tags:
-    - sandbox
-
-- name: Prepare some variables required by the tests
-  hosts: docker_sandbox_containers
-  tasks:
-    - name: Setup some variables required by tests
-      set_fact:
-        apache_modules_testhostvars:
-          - mod_ldap
-  tags:
-    - idempotence
-
-- name: Test apache role
-  hosts: docker_sandbox_containers
+- name: Converge
+  hosts: molecule_hosts
+  gather_facts: no
   roles:
       - role: amtega.apache
   tasks:
     - meta: flush_handlers
+
     - name: Check that apache is listening
       wait_for:
         port: "{{ item }}"
@@ -67,20 +40,8 @@
       changed_when: false
       register: apache_read_modules_installed
 
-    - name: Ensure apache modules are load
+    - name: Ensure apache modules are loaded
       assert:
         that:
           - apache_read_modules_installed.stdout is search("ssl_module")
           - apache_read_modules_installed.stdout is search("ldap_module")
-  tags:
-    - idempotence
-
-- name: Cleanup testing sandbox
-  hosts: localhost
-  roles:
-    - role: amtega.docker_sandbox
-      vars:
-        docker_sandbox_state: absent
-  tags:
-    - sandbox
-    - cleanup
