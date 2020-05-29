@@ -9,14 +9,14 @@ Listen {{ apache_ssl_port }} https
 ##  the main server and all SSL-enabled virtual hosts.
 ##
 
-SSLPassPhraseDialog     {{ apache_ssl_PassPhraseDialog }}
-SSLSessionCache         {{ apache_ssl_SessionCache }}
-SSLSessionCacheTimeout  {{ apache_ssl_SessionCache }}
+SSLPassPhraseDialog     {{ apache_ssl_pass_phrase_dialog }}
+SSLSessionCache         {{ apache_ssl_session_cache }}
+SSLSessionCacheTimeout  {{ apache_ssl_session_cache }}
 
-SSLRandomSeed startup {{ apache_ssl_RandomSeed_startup }}
-SSLRandomSeed connect {{ apache_ssl_RandomSeed_connect }}
+SSLRandomSeed startup {{ apache_ssl_random_seed_startup }}
+SSLRandomSeed connect {{ apache_ssl_random_seed_connect }}
 
-SSLCryptoDevice {{ apache_ssl_CryptoDevice }}
+SSLCryptoDevice {{ apache_ssl_crypto_device }}
 
 ##
 ## SSL Virtual Host Context
@@ -24,36 +24,35 @@ SSLCryptoDevice {{ apache_ssl_CryptoDevice }}
 
 <VirtualHost _default_:{{ apache_ssl_port }}>
 
+DocumentRoot {{ apache_ssl_document_root }}
+ServerName {{ apache_ssl_server_name }}:{{ apache_ssl_port }}
 
-DocumentRoot {{ apache_ssl_DocumentRoot }}
-ServerName {{ apache_ssl_ServerName }}:{{ apache_ssl_port }}
+ErrorLog {{ apache_ssl_error_log }}
+TransferLog {{ apache_ssl_transfer_log }}
+LogLevel {{ apache_ssl_log_level }}
 
-ErrorLog {{ apache_ssl_ErrorLog }}
-TransferLog {{ apache_ssl_TransferLog }}
-LogLevel {{ apache_ssl_LogLevel }}
+SSLEngine {{ apache_ssl_engine }}
 
-SSLEngine {{ apache_ssl_Engine }}
-
-SSLProtocol {{ apache_ssl_Protocol }}
-SSLCipherSuite {{ apache_ssl_CipherSuite}}
-{% if apache_ssl_ProxyCipherSuite is defined %}
-SSLProxyCipherSuite {{ apache_ssl_ProxyCipherSuite }}
+SSLProtocol {{ apache_ssl_protocol }}
+SSLCipherSuite {{ apache_ssl_cipher_Suite}}
+{% if apache_ssl_proxy_cipher_suite is defined %}
+SSLProxyCipherSuite {{ apache_ssl_proxy_cipher_suite }}
 {% endif %}
-SSLHonorCipherOrder {{ apache_ssl_HonorCipherOrder }}
-SSLCompression {{ apache_ssl_Compression }}
+SSLHonorCipherOrder {{ apache_ssl_honor_cipher_order }}
+SSLCompression {{ apache_ssl_compression }}
 
-SSLCertificateFile {{ apache_ssl_CertificateFile }}
-SSLCertificateKeyFile {{ apache_ssl_CertificateKeyFile }}
+SSLCertificateFile {{ apache_ssl_certificate_file }}
+SSLCertificateKeyFile {{ apache_ssl_certificate_key_file }}
 
-{% if apache_ssl_CertificateChainFile is defined %}
-SSLCertificateChainFile {{ apache_ssl_CertificateChainFile }}
+{% if apache_ssl_certificate_chain_file is defined %}
+SSLCertificateChainFile {{ apache_ssl_certificate_chain_file }}
 {% endif %}
-{% if apache_ssl_CACertificateFile is defined %}
-SSLCACertificateFile {{ apache_ssl_CACertificateFile }}
+{% if apache_ssl_ca_certificate_file is defined %}
+SSLCACertificateFile {{ apache_ssl_ca_certificate_file }}
 {% endif %}
 
-{% if apache_ssl_CustomVhostDirectivesRaw is defined %}
-{{ apache_ssl_CustomVhostDirectivesRaw }}
+{% if apache_ssl_custom_vhost_directives_raw is defined %}
+{{ apache_ssl_custom_vhost_directives_raw }}
 {% endif %}
 
 <FilesMatch "\.(cgi|shtml|phtml|php)$">
@@ -72,14 +71,14 @@ CustomLog logs/ssl_request_log \
 
 </VirtualHost>
 
-{% if apache_ssl_UseStapling is defined %}
+{% if apache_ssl_use_stapling is defined %}
 # OCSP Stapling, only in httpd 2.3.3 and later
-SSLUseStapling          {{ apache_ssl_UseStapling }}
-SSLStaplingResponderTimeout {{ apache_ssl_StaplingResponderTimeout }}
-SSLStaplingReturnResponderErrors {{ apache_ssl_StaplingReturnResponderErrors }}
-SSLStaplingCache       {{ apache_ssl_StaplingCache}}
+SSLUseStapling          {{ apache_ssl_use_stapling }}
+SSLStaplingResponderTimeout {{ apache_ssl_stapling_responder_timeout }}
+SSLStaplingReturnResponderErrors {{ apache_ssl_stapling_return_responder_errors }}
+SSLStaplingCache       {{ apache_ssl_stapling_cache}}
 {% endif %}
 
-{% if apache_ssl_CustomGlobalDirectivesRaw is defined %}
-{{ apache_ssl_CustomGlobalDirectivesRaw }}
+{% if apache_ssl_custom_global_directives_raw is defined %}
+{{ apache_ssl_custom_global_directives_raw }}
 {% endif %}

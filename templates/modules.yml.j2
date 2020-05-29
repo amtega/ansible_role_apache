@@ -1,0 +1,6 @@
+all:
+  all:
+{% for m in apache_modules_managed %}
+    - name: "{{ m }}"
+      state: present
+{% endfor %}
