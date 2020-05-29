@@ -2,16 +2,15 @@
 # Role dependencies
 
 galaxy_info:
-  role_name: role
-  author: author name
-  description: role description
+  role_name: apache
+  author: José Enrique Mourón Regueira
+  description: Intall and configure a basic httpd server with ssl support.
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
   min_ansible_version: 2.9
   platforms:
     - name: EL
       versions:
-        - 6
         - 7
     - name: Fedora
       versions:
@@ -19,4 +18,25 @@ galaxy_info:
         - 30
   galaxy_tags: []
 
-dependencies: []
+dependencies:
+  - role: amtega.check_platform
+    vars:
+      check_platform_distributions:
+        centos: 7
+        fedora: 29
+        rhel: 7
+
+  - role: amtega.packages
+    vars:
+      packages_os:
+        all:
+          all:
+            httpd: present
+
+  - role: amtega.select_hostvars
+    vars:
+      select_hostvars_query:
+        pattern: "^apache_modules_.*"
+        fact_name: apache_modules_hostvars
+        output_type: list
+    when: apache_modules_load_from_hostvars | bool

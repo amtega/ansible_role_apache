@@ -1,2 +1,57 @@
 ---
 # Role tasks
+- block:
+
+    - name: Install aditional modules
+      yum:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ apache_modules_managed }}"
+      notify: apache restart
+
+    - name: Configure apache httpd
+      template:
+        src: httpd.conf.j2
+        dest: "{{ apache_httpd_config_file }}"
+      notify: apache restart
+
+    - name: Create vhost configuration directory
+      file:
+        path: "{{ apache_ServerRoot }}/{{ apache_Vhost_configdir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Ensure apache DocumentRoot directory exists
+      file:
+        path: "{{ apache_DocumentRoot }}"
+        state: directory
+        mode: '0755'
+
+    - name: Configure apache ssl
+      template:
+        src: ssl.conf.j2
+        dest: "{{ apache_ssl_config_file }}"
+      when: "'mod_ssl' in apache_modules_managed"
+      notify: apache restart
+
+    - name: Deploy welcome page
+      template:
+        src: index.html.j2
+        dest: "{{ apache_DocumentRoot }}/index.html"
+
+    - name: enable httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+        
+  vars:
+    apache_modules_managed: >-
+      {{ (apache_aditional_modules
+         + ((apache_modules_load_from_hostvars)
+            | ternary(apache_modules_hostvars
+                      | default([])
+                      | flatten,
+                      []))) | unique }}
+  tags:
+    - role::apache
