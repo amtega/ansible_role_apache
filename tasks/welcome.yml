@@ -1,0 +1,7 @@
+---
+# Apache welcome page configuration tasks
+
+- name: Deploy welcome page
+  template:
+    src: index.html.j2
+    dest: "{{ apache_document_root }}/index.html"
