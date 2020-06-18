@@ -1,10 +1,8 @@
 ---
 
-- name: Converge
+- name: Verify
   hosts: molecule_hosts
   gather_facts: no
-  roles:
-      - role: amtega.apache
   tasks:
     - meta: flush_handlers
 

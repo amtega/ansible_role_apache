@@ -1,0 +1,14 @@
+---
+# Apache directories setup tasks
+
+- name: Create vhosts configuration directory
+  file:
+    path: "{{ apache_server_root }}/{{ apache_vhosts_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Setup apache document root directory
+  file:
+    path: "{{ apache_document_root }}"
+    state: directory
+    mode: '0755'

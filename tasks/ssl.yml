@@ -1,0 +1,9 @@
+---
+# Apache SSL configuration tasks
+
+- name: Configure apache ssl
+  template:
+    src: ssl.conf.j2
+    dest: "{{ apache_ssl_config_file_path }}"
+  when: "'mod_ssl' in apache_modules_managed"
+  notify: apache restart

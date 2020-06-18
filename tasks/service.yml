@@ -1,0 +1,8 @@
+---
+# Apache servicetasks
+
+- name: Enable httpd service
+  service:
+    name: httpd
+    state: started
+    enabled: true
