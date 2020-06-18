@@ -2,50 +2,11 @@
 # Role tasks
 
 - block:
-    - include_role:
-        name: amtega.packages
-      when: apache_modules_managed | length > 0
-      vars:
-        packages_os: "{{ lookup('template', 'modules.yml.j2') | from_yaml }}"
-        packages_os_notify:
-          - apache restart
-
-    - name: Configure apache httpd
-      template:
-        src: httpd.conf.j2
-        dest: "{{ apache_httpd_config_file_path }}"
-      notify: apache restart
-
-    - name: Create vhosts configuration directory
-      file:
-        path: "{{ apache_server_root }}/{{ apache_vhosts_config_dir }}"
-        state: directory
-        mode: '0755'
-
-    - name: Setup apache document root directory
-      file:
-        path: "{{ apache_document_root }}"
-        state: directory
-        mode: '0755'
-
-    - name: Configure apache ssl
-      template:
-        src: ssl.conf.j2
-        dest: "{{ apache_ssl_config_file_path }}"
-      when: "'mod_ssl' in apache_modules_managed"
-      notify: apache restart
-
-    - name: Deploy welcome page
-      template:
-        src: index.html.j2
-        dest: "{{ apache_document_root }}/index.html"
-
-    - name: Enable httpd service
-      service:
-        name: httpd
-        state: started
-        enabled: true
-
+    - include_tasks: modules.yml
+    - include_tasks: dirs.yml
+    - include_tasks: ssl.yml
+    - include_tasks: welcome.yml
+    - include_tasks: service.yml
   vars:
     apache_modules_managed: >-
       {{ (apache_modules
