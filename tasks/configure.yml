@@ -1,0 +1,9 @@
+---
+# Apache httpd configuration tasks
+
+- name: Configure apache httpd
+  template:
+    src: httpd.conf.j2
+    dest: "{{ apache_httpd_config_file_path }}"
+    mode: 0644
+  notify: apache restart
