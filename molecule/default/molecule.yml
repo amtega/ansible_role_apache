@@ -65,6 +65,7 @@ provisioner:
     hosts:
       molecule_hosts:
         vars:
+          apache_document_root: /srv/www/htdocs
           apache_httpd_port: 80
           apache_ssl_port: 443
           apache_modules_testhostvars:
