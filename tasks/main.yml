@@ -4,6 +4,7 @@
 - block:
     - include_tasks: modules.yml
     - include_tasks: dirs.yml
+    - include_tasks: configure.yml
     - include_tasks: ssl.yml
     - include_tasks: welcome.yml
     - include_tasks: service.yml

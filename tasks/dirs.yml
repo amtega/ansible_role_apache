@@ -4,11 +4,19 @@
 - name: Create vhosts configuration directory
   file:
     path: "{{ apache_server_root }}/{{ apache_vhosts_config_dir }}"
+    selevel: "{{ apache_selinux_level }}"
+    seuser: "{{ apache_selinux_user }}"
+    serole: "{{ apache_selinux_role }}"
+    setype: "{{ apache_config_selinux_type }}"
     state: directory
     mode: '0755'
 
 - name: Setup apache document root directory
   file:
     path: "{{ apache_document_root }}"
+    selevel: "{{ apache_selinux_level }}"
+    seuser: "{{ apache_selinux_user }}"
+    serole: "{{ apache_selinux_role }}"
+    setype: "{{ apache_docs_selinux_type }}"
     state: directory
     mode: '0755'
