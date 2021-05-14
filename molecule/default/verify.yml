@@ -16,7 +16,7 @@
 
     - name: Check that http port returns welcome page
       uri:
-        url: "http://localhost:{{ apache_httpd_port }}"
+        url: "http://localhost:{{ apache_httpd_port }}/ansible_welcome.html"
         return_content: yes
       register: check_httpd_result
       failed_when: >-
@@ -25,7 +25,7 @@
 
     - name: Check that ssl port returns welcome page
       uri:
-        url: "https://localhost:{{ apache_ssl_port }}"
+        url: "https://localhost:{{ apache_ssl_port }}/ansible_welcome.html"
         return_content: yes
         validate_certs: no
       register: check_ssl_result
