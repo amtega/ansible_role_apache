@@ -8,5 +8,5 @@ apache_ssl_config_file_path: "{{ apache_server_root }}/conf.d/ssl.conf"
 apache_selinux_user: system_u
 apache_selinux_role: object_r
 apache_config_selinux_type: httpd_config_t
-apache_docs_selinux_type: httpd_sys_rw_content_t
+apache_docs_selinux_type: httpd_sys_content_t
 apache_selinux_level: s0

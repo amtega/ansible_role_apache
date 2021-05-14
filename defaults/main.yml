@@ -5,7 +5,7 @@
 # See https://httpd.apache.org/docs/current for further information
 
 apache_document_root: "/var/www/html"
-apache_server_name: "{{ ansible_hostname }}"
+apache_server_name: "{{ inventory_hostname }}"
 apache_server_root: "/etc/httpd"
 apache_httpd_port: 80
 apache_listen: "{{ apache_httpd_port }}"
