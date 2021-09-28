@@ -86,3 +86,15 @@ apache_modules:
 # variables must follow the structure detailed before for each one.
 
 apache_modules_load_from_hostvars: yes
+
+# Configure logrotate file
+
+apache_logrotate_config_path: /etc/logrotate.d/httpd
+apache_logrotate_pattern: "/var/log/httpd/*log"
+apache_logrotate_config: |
+  missingok
+  notifempty
+  sharedscripts
+  daily
+  compress
+  rotate 15

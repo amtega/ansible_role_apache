@@ -1,0 +1,8 @@
+{{ ansible_managed | comment }}
+
+{{ apache_logrotate_pattern }} {
+{{ apache_logrotate_config | indent(width=2, first=true) }}
+    postrotate
+        /bin/systemctl reload httpd.service > /dev/null 2>/dev/null || true
+    endscript
+}
