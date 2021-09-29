@@ -3,6 +3,7 @@
 
 galaxy_info:
   role_name: apache
+  namespace: amtega
   author: José Enrique Mourón Regueira | Juan Antonio Valiño García
   description: Intall and configure a basic httpd server with ssl support.
   company: AMTEGA - Xunta de Galicia

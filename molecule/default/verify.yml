@@ -4,7 +4,9 @@
   hosts: molecule_hosts
   gather_facts: no
   tasks:
-    - meta: flush_handlers
+
+    - name: Force handlers execution
+      meta: flush_handlers
 
     - name: Check that apache is listening
       wait_for:
@@ -35,7 +37,7 @@
 
     - name: Register apache apache apache modueles
       command: "/usr/sbin/httpd -M"
-      changed_when: false
+      changed_when: no
       register: apache_read_modules_installed
 
     - name: Ensure apache modules are loaded
