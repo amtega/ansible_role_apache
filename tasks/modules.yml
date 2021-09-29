@@ -1,7 +1,8 @@
 ---
 # Apache modules setup tasks
 
-- include_role:
+- name: Install desired apache modules
+  include_role:
     name: amtega.packages
   when: apache_modules_managed | length > 0
   vars:

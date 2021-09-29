@@ -5,3 +5,4 @@
   template:
     src: index.html.j2
     dest: "{{ apache_document_root }}/ansible_welcome.html"
+    mode: 0644

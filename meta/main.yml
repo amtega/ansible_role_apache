@@ -3,6 +3,7 @@
 
 galaxy_info:
   role_name: apache
+  namespace: amtega
   author: José Enrique Mourón Regueira | Juan Antonio Valiño García
   description: Intall and configure a basic httpd server with ssl support.
   company: AMTEGA - Xunta de Galicia
@@ -12,10 +13,11 @@ galaxy_info:
     - name: EL
       versions:
         - 7
+        - 8
     - name: Fedora
       versions:
-        - 29
-        - 30
+        - 33
+        - 34
   galaxy_tags: []
 
 dependencies:
@@ -23,7 +25,7 @@ dependencies:
     vars:
       check_platform_distributions:
         centos: 7
-        fedora: 29
+        fedora: 33
         redhat: 7
 
   - role: amtega.packages
