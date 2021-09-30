@@ -34,7 +34,7 @@ LogLevel {{ apache_ssl_log_level }}
 SSLEngine {{ apache_ssl_engine }}
 
 SSLProtocol {{ apache_ssl_protocol }}
-SSLCipherSuite {{ apache_ssl_cipher_Suite}}
+SSLCipherSuite {{ apache_ssl_cipher_suite}}
 {% if apache_ssl_proxy_cipher_suite is defined %}
 SSLProxyCipherSuite {{ apache_ssl_proxy_cipher_suite }}
 {% endif %}

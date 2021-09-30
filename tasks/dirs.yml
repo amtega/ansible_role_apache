@@ -1,7 +1,7 @@
 ---
 # Apache directories setup tasks
 
-- name: Create vhosts configuration directory
+- name: Setup vhosts configuration directory
   file:
     path: "{{ apache_server_root }}/{{ apache_vhosts_config_dir }}"
     selevel: "{{ apache_selinux_level }}"
@@ -9,7 +9,17 @@
     serole: "{{ apache_selinux_role }}"
     setype: "{{ apache_config_selinux_type }}"
     state: directory
-    mode: '0755'
+    mode: 0755
+
+- name: Setup modules configuration directory
+  file:
+    path: "{{ apache_server_root }}/{{ apache_modules_config }}"
+    selevel: "{{ apache_selinux_level }}"
+    seuser: "{{ apache_selinux_user }}"
+    serole: "{{ apache_selinux_role }}"
+    setype: "{{ apache_config_selinux_type }}"
+    state: directory
+    mode: 0755
 
 - name: Setup apache document root directory
   file:
@@ -19,4 +29,4 @@
     serole: "{{ apache_selinux_role }}"
     setype: "{{ apache_docs_selinux_type }}"
     state: directory
-    mode: '0755'
+    mode: 0755
