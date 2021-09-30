@@ -38,7 +38,7 @@ LogLevel {{ apache_log_level }}
 
 <IfModule log_config_module>
     LogFormat "{{ apache_log_format_combined }}" combined
-    LogFormat "{{ apache_LogFormat_common }}" common
+    LogFormat "{{ apache_log_format_common }}" common
 
     <IfModule logio_module>
       LogFormat "{{ apache_log_format_combinedio }}" combinedio

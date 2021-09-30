@@ -21,7 +21,7 @@ apache_error_log: "logs/error_log"
 apache_log_level: warn
 apache_log_format_combined: >-
   %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"
-apache_LogFormat_common: "%h %l %u %t \\\"%r\\\" %>s %b"
+apache_log_format_common: "%h %l %u %t \\\"%r\\\" %>s %b"
 apache_log_format_combinedio: >-
   %h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\" %I %O
 apache_custom_log_path: logs/access_log
@@ -52,7 +52,7 @@ apache_ssl_log_level: warn
 # Adjust Protocol and CipherSuite carefully
 
 apache_ssl_protocol: "-all +TLSv1.2"
-apache_ssl_cipher_Suite: 'ALL:!aNULL:RC4+RSA:+HIGH:+MEDIUM:+LOW:+EXP:+eNULL'
+apache_ssl_cipher_suite: 'ALL:!aNULL:RC4+RSA:+HIGH:+MEDIUM:+LOW:+EXP:+eNULL'
 apache_ssl_honor_cipher_order: "on"
 apache_ssl_compression: "off"
 apache_ssl_certificate_file: "/etc/pki/tls/certs/localhost.crt"
@@ -92,7 +92,7 @@ apache_modules_load_from_hostvars: yes
 # Configure logrotate file
 
 apache_logrotate_config_path: /etc/logrotate.d/httpd
-apache_logrotate_pattern: "/var/log/httpd/*log"
+apache_logrotate_pattern: /var/log/httpd/*log
 apache_logrotate_config: |
   missingok
   notifempty
