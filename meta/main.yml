@@ -33,6 +33,7 @@ dependencies:
       packages_os:
         all:
           all:
+            hostname: present
             httpd: present
 
   - role: amtega.select_hostvars
