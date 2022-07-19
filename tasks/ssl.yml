@@ -2,7 +2,7 @@
 # Apache SSL configuration tasks
 
 - name: Configure apache ssl
-  template:
+  ansible.builtin.template:
     src: ssl.conf.j2
     dest: "{{ apache_ssl_config_file_path }}"
     mode: 0644

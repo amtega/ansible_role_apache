@@ -2,7 +2,7 @@
 # Role handlers
 
 - name: Apache restart httpd
-  service:
+  ansible.builtin.service:
     name: httpd
     state: restarted
     enabled: yes

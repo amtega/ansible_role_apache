@@ -2,7 +2,7 @@
 # Apache modules setup tasks
 
 - name: Install desired apache modules
-  include_role:
+  ansible.builtin.include_role:
     name: amtega.packages
   when: apache_modules_managed | length > 0
   vars:
