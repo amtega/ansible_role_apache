@@ -1,7 +1,7 @@
 ---
-# Role tasks
 
-- block:
+- name: Setup apache
+  block:
     - include_tasks: modules.yml
     - include_tasks: dirs.yml
     - include_tasks: configure.yml

@@ -2,7 +2,7 @@
 # Apache servicetasks
 
 - name: Enable httpd service
-  service:
+  ansible.builtin.service:
     name: httpd
     state: started
     enabled: yes

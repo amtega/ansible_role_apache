@@ -6,10 +6,10 @@
   tasks:
 
     - name: Force handlers execution
-      meta: flush_handlers
+      ansible.builtin.meta: flush_handlers
 
     - name: Check that apache is listening
-      wait_for:
+      ansible.builtin.wait_for:
         port: "{{ item }}"
         timeout: 10
       loop:
@@ -17,7 +17,7 @@
         - "{{ apache_ssl_port }}"
 
     - name: Check that http port returns welcome page
-      uri:
+      ansible.builtin.uri:
         url: "http://localhost:{{ apache_httpd_port }}/ansible_welcome.html"
         return_content: yes
       register: check_httpd_result
@@ -26,7 +26,7 @@
              is search("Apache Web Server was installed by ansible")
 
     - name: Check that ssl port returns welcome page
-      uri:
+      ansible.builtin.uri:
         url: "https://localhost:{{ apache_ssl_port }}/ansible_welcome.html"
         return_content: yes
         validate_certs: no
@@ -36,12 +36,12 @@
              is search("Apache Web Server was installed by ansible")
 
     - name: Register apache apache apache modueles
-      command: "/usr/sbin/httpd -M"
+      ansible.builtin.command: "/usr/sbin/httpd -M"
       changed_when: no
       register: apache_read_modules_installed
 
     - name: Ensure apache modules are loaded
-      assert:
+      ansible.builtin.assert:
         that:
           - apache_read_modules_installed.stdout is search("ssl_module")
           - apache_read_modules_installed.stdout is search("ldap_module")
