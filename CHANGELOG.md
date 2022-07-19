@@ -4,20 +4,8 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## 2.0.0 (2022-07-19)
 
-## [1.2.3] - 2022-02-14
-### Fixed
-- Added to dependencies missing tool for certificates generation.
+### Refactor
 
-## [1.2.2] - 2022-02-11
-### Fixed
-- Fixed typo.
-
-## [1.2.1] - 2022-02-11
-### Changed
-- Changed testing images.
-
-## [1.2.0] - 2022-01-18
-### Changed
-- Supported distros.
+- **global**: implement coding standards

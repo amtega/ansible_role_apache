@@ -2,7 +2,7 @@
 # Apache welcome page configuration tasks
 
 - name: Deploy welcome page
-  template:
+  ansible.builtin.template:
     src: index.html.j2
     dest: "{{ apache_document_root }}/ansible_welcome.html"
     mode: 0644
